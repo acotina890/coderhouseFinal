@@ -4,85 +4,56 @@ using UnityEngine;
 
 public class ZombieMovement : MonoBehaviour
 {
-    #region Variables a utilizar
+    private enum TypeOfZombie{
+        basic,
+        miniboss,
+        boss
+    }
+
+    [SerializeField] private TypeOfZombie typeOfZombie;
+
     public Animator zAnim; // para setear las animaciones
     public float zSpeed = 0.1f; // velocidad de movimiento del zombie
-    public float countDown = 0f; // temporizador para las animaciones
     public Transform delJugador; // para cuando detecte al jugador / player
-    public Rigidbody zRb; // para las fuerzas u otro tipo
-    #endregion
-
-    float distancia, hor, ver;
-    Vector3 position;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    #region Metodo Update
-    // Update is called once per frame
-    void Update()
-    {
-        // Transition();
-        // FollowAndAttack();
-    }
-    #endregion
+    public int caseNumber; //trabajar con funciones con base al switch
+    public float distancia; //distancia del jugador
 
     void FixedUpdate()
     {
-        Transition();
-        
-    }
-
-    void Transition()
-    {
-        hor = Input.GetAxis("Horizontal");
-        ver = Input.GetAxis("Vertical");
-        Vector3 inputZombie = new Vector3(hor, 0, ver);
-
-        float rango = Random.Range(-8, 8);
-
-        transform.position += Vector3.forward;
-    }
-
-    #region Para el temporizador
-    void ResetTempo()
-    {
-        countDown = 0f;
-    }
-
-    void StartTempo()
-    {
-        countDown += Time.deltaTime;
-    }
-
-    void SpawnZombies()
-    {
-        
-    }
-    #endregion
-
-    #region Otros
-    void FollowAndAttack()
-    {
-        DistanceFromObject();
-        if (distancia > 1.5f)
-        {
-            // PredMovement();
+        distancia = Vector3.Distance(transform.position, delJugador.position);
+        if(caseNumber == 0){
+            basicZombieBehaviour();
         }
     }
 
-    void DistanceFromObject()
-    {
-        distancia = Vector3.Distance(transform.position, delJugador.position);
+    void basicZombieBehaviour(){
+        if(distancia < 25){
+            transform.position = Vector3.Lerp(transform.position, delJugador.position, zSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, delJugador.rotation, 3*Time.deltaTime);
+            zAnim.SetTrigger("Chase");
+            zAnim.SetBool("NearPlayer",true);
+        }else{
+            zAnim.SetBool("NearPlayer",false);
+        }
+        
+        if(distancia < 2){
+            zAnim.SetTrigger("Attack");
+        }
     }
 
-    void PredMovement()
+    private void SetTypeOfZombie(TypeOfZombie typeOfZombie)
     {
-        distancia = Vector3.Distance(transform.position, delJugador.position);
-        transform.position = Vector3.Lerp(transform.position, delJugador.position, zSpeed * Time.deltaTime);
+        switch (typeOfZombie)
+        {
+            case TypeOfZombie.basic:
+                caseNumber = 0;
+                break;
+            case TypeOfZombie.miniboss:
+                caseNumber = 1;
+                break;
+            case TypeOfZombie.boss:
+                caseNumber = 2;
+                break;
+        }
     }
-    #endregion
 }

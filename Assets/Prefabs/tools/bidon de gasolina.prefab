@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8792004873982653972}
-  - component: {fileID: 8162960645852851361}
+  - component: {fileID: 4741524350715120164}
   m_Layer: 0
   m_Name: bidon de gasolina
   m_TagString: bidon
@@ -117,26 +117,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.357, y: -108.155, z: -5.045}
---- !u!95 &8162960645852851361
-Animator:
-  serializedVersion: 4
+--- !u!114 &4741524350715120164
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8162960645852851374}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df0385225ca52884aa55468ce4bff09b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e7bbfdaa5604a419d4052173fa278f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeOfInteractableObject: 4
+  Player: {fileID: 0}
+  distance: 0
+  caseNumber: 4
+  gasGallonsCollected: 0
+  gasGallonsQuantityText: {fileID: 0}
 --- !u!1 &8664984180401867222
 GameObject:
   m_ObjectHideFlags: 0

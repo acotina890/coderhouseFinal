@@ -5,7 +5,11 @@ using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera aimCam;
+    public Transform mainCam;
+
+    public float turnSmoothTime = 0.1f;
+    float turnSmoothVelocity;
+
     public bool aiming;
     public float aimRotSens = 150;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
@@ -14,13 +18,21 @@ public class PlayerMovement : MonoBehaviour
     public static bool Healed = false;
     public bool canWalk;
     public Animator anim;
-    public Rigidbody rb;
-    public float jumpForce = 100;
-    public bool canJump = false;
 
+    public CharacterController chController;
     Vector3 rotationtnput = Vector3.zero;
     public float rotSens = 300;
+
+    public float gravity = -9.8f;
+    public float jumpHeight = 3;
+    public Transform groundCheck;
+    public float groundDistance = 0.3f;
+    public LayerMask groundMask;
+    Vector3 velocity;
+    bool isGrounded;
+
     public float speed = 4;
+    public float x, y;
 
     void Start(){
         canWalk = false;
@@ -29,35 +41,38 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         if(canWalk){
-            Look();
             Move();
-            Aim();
             Shoot();
+            Attack();
         }
-    }
-
-    private void Look(){
-        if(!aiming){
-            rotationtnput.x = Input.GetAxis("Mouse X") * rotSens * Time.deltaTime;
-        }
-        else{
-            rotationtnput.x = Input.GetAxis("Mouse X") * aimRotSens * Time.deltaTime;
-        }
-        
-        transform.Rotate(Vector3.up * rotationtnput.x);
     }
 
     private void Move(){
-        float hor = Input.GetAxisRaw("Horizontal");
-        float ver = Input.GetAxisRaw("Vertical");
+        isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundMask);
+        if(isGrounded && velocity.y < 0){
+            velocity.y = -2f;
+            anim.SetBool("Grounded", true);
+            anim.SetBool("Jump", false);
+        }
 
-        anim.SetFloat("VelX", hor);
-        anim.SetFloat("VelY", ver);
+        x = Input.GetAxisRaw("Horizontal");
+        y = Input.GetAxisRaw("Vertical");
 
-        if(hor != 0 || ver != 0){
-            Vector3 direction = (transform.forward * ver + transform.right * hor).normalized;
-            rb.velocity = direction * speed;
+        Vector3 direction = new Vector3(x,0f,y).normalized;
+
+        anim.SetFloat("VelX", x);
+        anim.SetFloat("VelY", y);
+
+        if(direction.magnitude >= 0.1f){
+            float targetAngle = Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg + mainCam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y,targetAngle, ref turnSmoothVelocity,turnSmoothTime);
+            Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
+            transform.rotation = Quaternion.Euler(0f,angle,0f);
+
+            chController.Move(moveDir.normalized*speed*Time.deltaTime);
             anim.SetBool("Walking", true);
+
+            //Correr
             if(Healed){
                 if(Input.GetKey(KeyCode.LeftShift)){
                     anim.SetBool("Running", true);
@@ -67,39 +82,22 @@ public class PlayerMovement : MonoBehaviour
                     anim.SetBool("Running", false);
                     speed = 6;
                 }
-
-                //Se implementará el salto más adelante
-                /* Vector3 floor = transform.TransformDirection(Vector3.down);
-                if(Physics.Raycast(transform.position, floor, 6)){
-                    canJump = true;
-                }
-                else{
-                    canJump = false;
-                }
-
-                if(canJump){
-                    if(Input.GetKeyDown(KeyCode.Space)){
-                        anim.SetBool("Jump", true);
-                        rb.AddForce(new Vector3(0,jumpForce,0),ForceMode.Impulse);
-                    }
-                    anim.SetBool("Grounded", true);
-                }
-                else{
-                    Falling();
-                } */
             }
         }
         else{
-            rb.velocity = Vector3.zero;
             anim.SetBool("Walking", false);
         }
 
-        if(Healed && Input.GetKey(KeyCode.Space)){
-                anim.SetTrigger("Jump");
+        if(Healed && Input.GetButton("Jump") && isGrounded){
+            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            anim.SetBool("Jump", true);
+            anim.SetBool("Grounded", false);
         }
+        velocity.y += gravity * Time.deltaTime;
+        chController.Move(velocity*Time.deltaTime);
     }
 
-    private void Aim(){
+/*     private void Aim(){
         if(Input.GetKey(KeyCode.Mouse1)){
             aiming = true;
             aimCam.gameObject.SetActive(true);
@@ -108,11 +106,6 @@ public class PlayerMovement : MonoBehaviour
             aiming = false;
             aimCam.gameObject.SetActive(false);
         }
-    }
-
-    /* public void Falling(){
-        anim.SetBool("Grounded", false);
-        anim.SetBool("Jump", false);
     } */
 
     public void Shoot(){
@@ -121,6 +114,12 @@ public class PlayerMovement : MonoBehaviour
         Transform hitTransform = null;
         if(Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask)){
             hitTransform = raycastHit.transform;
+        }
+    }
+
+    public void Attack(){
+        if(Input.GetKey(KeyCode.Mouse0)){
+            anim.SetTrigger("Attack");
         }
     }
 
@@ -135,5 +134,15 @@ public class PlayerMovement : MonoBehaviour
     public void Interact(){
         anim.SetBool("Walking", false);
         anim.SetTrigger("Interact");
+    }
+
+    public void ActivateAxe(){
+        anim.SetBool("Axe",true);
+        anim.SetBool("Rifle",false);
+    }
+
+    public void ActivateRifle(){
+        anim.SetBool("Rifle",true);
+        anim.SetBool("Axe",false);
     }
 }
