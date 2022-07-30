@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public Transform mainCam;
+
+    public static float health;
+    public float maxHealth = 255f;
+    public Image bloodImage;
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
@@ -20,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
 
     public CharacterController chController;
-    Vector3 rotationtnput = Vector3.zero;
+    private float cameraVerticalAngle;
+    Vector3 rotationInput = Vector3.zero;
     public float rotSens = 300;
 
     public float gravity = -9.8f;
@@ -35,7 +41,12 @@ public class PlayerMovement : MonoBehaviour
     public float x, y;
 
     void Start(){
+        health = 20;
         canWalk = false;
+    }
+
+    void Update(){
+        bloodImage.color = new Color(255,0,0,health/-maxHealth);
     }
 
     void FixedUpdate()
@@ -44,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
             Shoot();
             Attack();
+            Look();
         }
     }
 
@@ -64,12 +76,14 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("VelY", y);
 
         if(direction.magnitude >= 0.1f){
-            float targetAngle = Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg + mainCam.eulerAngles.y;
+            /* float targetAngle = Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg + mainCam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y,targetAngle, ref turnSmoothVelocity,turnSmoothTime);
             Vector3 moveDir = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
-            transform.rotation = Quaternion.Euler(0f,angle,0f);
+            transform.rotation = Quaternion.Euler(0f,angle,0f); */
 
-            chController.Move(moveDir.normalized*speed*Time.deltaTime);
+            /* chController.Move(moveDir.normalized*speed*Time.deltaTime); */
+            direction = transform.TransformDirection(direction) * speed;
+            chController.Move(direction * Time.deltaTime);
             anim.SetBool("Walking", true);
 
             //Correr
@@ -95,6 +109,17 @@ public class PlayerMovement : MonoBehaviour
         }
         velocity.y += gravity * Time.deltaTime;
         chController.Move(velocity*Time.deltaTime);
+    }
+
+    private void Look(){
+        rotationInput.x = Input.GetAxis("Mouse X") * rotSens * Time.deltaTime;
+        rotationInput.y = Input.GetAxis("Mouse Y") * rotSens * Time.deltaTime;
+
+        cameraVerticalAngle += rotationInput.y;
+        cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -65,65);
+
+        transform.Rotate(Vector3.up * rotationInput.x);
+        mainCam.transform.localRotation = Quaternion.Euler(-cameraVerticalAngle,0,0);
     }
 
 /*     private void Aim(){
