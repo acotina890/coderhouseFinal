@@ -7,6 +7,7 @@ TagManager:
   - MedKit
   - bidon
   - zombi normal
+  - Zombie
   layers:
   - Default
   - TransparentFX

@@ -72,7 +72,6 @@ public class Interactable : MonoBehaviour
     private void MedKit(){
         if(distance <= 2.5f && Input.GetKeyDown(KeyCode.E)){
             Destroy(gameObject, 1f);
-            PlayerMovement.health = 255;
             PlayerMovement.Healed = true;
             Player.GetComponent<PlayerMovement>().Interact();
         }

@@ -8,9 +8,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public Transform mainCam;
 
-    public static float health;
-    public float maxHealth = 255f;
+    public float damage = 0.9f;
+    public float maxHealth = 100;
     public Image bloodImage;
+    private float a;
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     float cureAmount;
     public static bool Healed = false;
+    private bool firstHealed = false;
     public bool canWalk;
     public Animator anim;
 
@@ -41,12 +43,19 @@ public class PlayerMovement : MonoBehaviour
     public float x, y;
 
     void Start(){
-        health = 20;
+        a = bloodImage.color.a;
         canWalk = false;
     }
 
     void Update(){
-        bloodImage.color = new Color(255,0,0,health/-maxHealth);
+        a = damage;
+        Mathf.Clamp(a,0,1);
+        Color c = new Color(0.35f,0,0,a);
+        bloodImage.color = c;
+        if(Healed && !firstHealed){
+            damage = 0;
+            firstHealed = true;
+        }
     }
 
     void FixedUpdate()
