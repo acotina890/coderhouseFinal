@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7963664837043768352}
   - component: {fileID: 7963664837047159808}
   - component: {fileID: 7963664837046062784}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4fb240bae51293a4da8e5084339632f4, type: 2}
+  - {fileID: 2100000, guid: 413ce177f858c1a48ac2771b3e2e5223, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7963664837043768354}
   - component: {fileID: 7963664837047159810}
   - component: {fileID: 7963664837046062786}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4fb240bae51293a4da8e5084339632f4, type: 2}
+  - {fileID: 2100000, guid: 413ce177f858c1a48ac2771b3e2e5223, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 7963664837043768360}
   - component: {fileID: 7963664837047159816}
   - component: {fileID: 7963664837046062792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Automatico 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,9 +191,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963664837043867656}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.791, y: 3.841, z: -89.046}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7963664837043768362}
@@ -232,7 +232,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77fec4499b415f046a841d07302843be, type: 2}
+  - {fileID: 2100000, guid: 3d2ca43bc318014408e30041fcf31fc3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 7963664837043768362}
   - component: {fileID: 7963664837047159818}
   - component: {fileID: 7963664837046062794}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4fb240bae51293a4da8e5084339632f4, type: 2}
+  - {fileID: 2100000, guid: 413ce177f858c1a48ac2771b3e2e5223, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 7963664837043768364}
   - component: {fileID: 7963664837047159820}
   - component: {fileID: 7963664837046062796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rear_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4fb240bae51293a4da8e5084339632f4, type: 2}
+  - {fileID: 2100000, guid: 413ce177f858c1a48ac2771b3e2e5223, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 7963664837043768366}
   - component: {fileID: 7963664837047159822}
   - component: {fileID: 7963664837046062798}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77fec4499b415f046a841d07302843be, type: 2}
+  - {fileID: 2100000, guid: 413ce177f858c1a48ac2771b3e2e5223, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -68,6 +68,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // mensaje en caso de recibir daño
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.transform.gameObject.tag == "zombi normal")
+        {
+            Debug.Log("Daño normal");
+        }
+
+        if(col.transform.gameObject.tag == "mini boss")
+        {
+            Debug.Log("Daño pesado");
+        }
+    }
+
     private void Move(){
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundMask);
         if(isGrounded && velocity.y < 0){
