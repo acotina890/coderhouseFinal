@@ -78,13 +78,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if(col.transform.gameObject.tag == "zombi normal")
         {
-            Debug.Log("Da�o normal");
+            Debug.Log("Normal damage");
             damage += 0.1f;
         }
 
         if(col.transform.gameObject.tag == "mini boss")
         {
-            Debug.Log("Da�o pesado");
+            Debug.Log("Heavy damage");
             damage += 0.3f;
         }
     }

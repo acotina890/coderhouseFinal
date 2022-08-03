@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ZombieMovement : MonoBehaviour
 {
-    #region definicion de enum Zombie
     private enum TypeOfZombie{
         basic,
         miniboss,
@@ -12,9 +11,10 @@ public class ZombieMovement : MonoBehaviour
     }
 
     [SerializeField] private TypeOfZombie typeOfZombie;
-    #endregion
+    
 
-    #region definicion enum Comportamiento
+
+
     private enum TypeOfBehaviour
     {
         still,
@@ -22,49 +22,55 @@ public class ZombieMovement : MonoBehaviour
     }
 
     [SerializeField] private TypeOfBehaviour typeOfBehaviour;
-    #endregion
+    
 
-    #region Variables a usar
+
 
     public Animator zAnim; // para setear las animaciones
 
-    // public float zSpeed = 0.1f; // velocidad de movimiento del zombie
+    public float zSpeed = 0.1f; // velocidad de movimiento del zombie
 
     public float countDown = 0; // temporizador para las animaciones
-
     private int caseBehaviour; // para enum Comportamiento
     private int rutine; // para el movimiento automatico
     private Quaternion angle; // para la rotacion
     private float grade; // para la rotacion
-    private bool attacking;
+    private bool attacking; // para la animacion de ataque
+    private Vector3 savedPosition; // para el respawn
 
     public Transform delJugador; // para cuando detecte al jugador / player
     public int caseNumber; //trabajar con funciones con base al switch
     public float distancia; //distancia del jugador
 
-    #endregion
+
+
+
+    void Start()
+    {
+        savedPosition = transform.position;
+    }
 
     void Update()
     {
         distancia = Vector3.Distance(transform.position, delJugador.position);
 
-        #region seteamos los tipos de zombis y comportamientos
+
+
         SetTypeOfZombie();
         SetTypeBehaviour();
-        #endregion
+        
 
-        #region casos de zombis con sus casos de comportamientos
 
         // zombi normal
         if(caseNumber == 0)
         {
             if(caseBehaviour == 0)
             {
-                AtPlacePlusPersecution();
+                AtPlace();
             }
             if(caseBehaviour == 1)
             {
-                WithMovePlusPersecution();
+                WithMove();
             }
         }
 
@@ -73,11 +79,11 @@ public class ZombieMovement : MonoBehaviour
         {
             if (caseBehaviour == 0)
             {
-                AtPlacePlusPersecution();
+                AtPlace();
             }
             if (caseBehaviour == 1)
             {
-                WithMovePlusPersecution();
+                WithMove();
             }
         }
 
@@ -86,16 +92,19 @@ public class ZombieMovement : MonoBehaviour
         {
             if (caseBehaviour == 0)
             {
-                AtPlacePlusPersecution();
+                AtPlace();
             }
             if (caseBehaviour == 1)
             {
-                WithMovePlusPersecution();
+                WithMove();
             }
         }
 
-        #endregion
+
+        Respawn();
     }
+
+
 
 
     private void SetTypeOfZombie() // uso enum Zombi
@@ -114,6 +123,8 @@ public class ZombieMovement : MonoBehaviour
         }
     }
 
+
+
     private void SetTypeBehaviour() // uso enum Comportamiento
     {
         switch(typeOfBehaviour)
@@ -127,7 +138,10 @@ public class ZombieMovement : MonoBehaviour
         }
     }
 
-    private void AtPlacePlusPersecution() // sin movimiento + deteccion del jugador
+
+
+
+    private void AtPlace() // sin movimiento + deteccion del jugador
     {
         if(distancia > 30)
         {
@@ -141,7 +155,9 @@ public class ZombieMovement : MonoBehaviour
         }
     }
 
-    private void WithMovePlusPersecution() // movimiento automatico + deteccion del jugador
+
+
+    private void WithMove() // movimiento automatico + deteccion del jugador
     {
         if (distancia > 30)
         {
@@ -153,7 +169,9 @@ public class ZombieMovement : MonoBehaviour
         }
     }
 
-    private void AutoBehaviour()
+
+
+    private void AutoBehaviour() // movimiento automatico
     {
         zAnim.SetBool("zRun", false);
         zAnim.SetBool("zAttack", false);
@@ -183,6 +201,8 @@ public class ZombieMovement : MonoBehaviour
         }
     }
 
+
+
     private void FollowAndAttack() // deteccion del jugador
     {
         if (distancia > 1.4)
@@ -197,7 +217,7 @@ public class ZombieMovement : MonoBehaviour
 
             zAnim.SetBool("zRun", true);
 
-            transform.Translate(Vector3.forward * 9 * Time.deltaTime);
+            transform.Translate(Vector3.forward * zSpeed * Time.deltaTime);
         }
         else
         {
@@ -208,6 +228,19 @@ public class ZombieMovement : MonoBehaviour
             attacking = true;
         }
     }
+
+
+
+
+    private void Respawn() // en caso de que se caigan del mapa
+    {
+        if(transform.position.y < -10)
+        {
+            transform.position = savedPosition;
+        }
+    }
+
+
 
     public void FinishAnimation() // ���NO TOCAR���
     {
