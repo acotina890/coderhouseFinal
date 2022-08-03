@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Transform mainCam;
+    public GameObject panelDie;
+    public GameObject buttonRespawn;
 
     public float damage = 0.9f;
     public float maxHealth = 100;
@@ -17,19 +19,16 @@ public class PlayerMovement : MonoBehaviour
     float turnSmoothVelocity;
 
     public bool aiming;
-    public float aimRotSens = 150;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
 
     float cureAmount;
     public static bool Healed = false;
     private bool firstHealed = false;
-    public bool canWalk;
+    public static bool canWalk;
     public Animator anim;
 
     public CharacterController chController;
     private float cameraVerticalAngle;
-    Vector3 rotationInput = Vector3.zero;
-    public float rotSens = 300;
 
     public float gravity = -9.8f;
     public float jumpHeight = 3;
@@ -43,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     public float x, y;
 
     void Start(){
+        Healed = false;
+        firstHealed = false;
         a = bloodImage.color.a;
         canWalk = false;
     }
@@ -56,6 +57,11 @@ public class PlayerMovement : MonoBehaviour
             damage = 0;
             firstHealed = true;
         }
+
+        if(damage >= 1){
+            anim.SetTrigger("Die");
+            panelDie.SetActive(true);
+        }
     }
 
     void FixedUpdate()
@@ -64,21 +70,22 @@ public class PlayerMovement : MonoBehaviour
             Move();
             Shoot();
             Attack();
-            Look();
         }
     }
 
-    // mensaje en caso de recibir daño
+    // mensaje en caso de recibir daï¿½o
     void OnTriggerEnter(Collider col)
     {
         if(col.transform.gameObject.tag == "zombi normal")
         {
-            Debug.Log("Daño normal");
+            Debug.Log("Daï¿½o normal");
+            damage += 0.1f;
         }
 
         if(col.transform.gameObject.tag == "mini boss")
         {
-            Debug.Log("Daño pesado");
+            Debug.Log("Daï¿½o pesado");
+            damage += 0.3f;
         }
     }
 
@@ -134,17 +141,6 @@ public class PlayerMovement : MonoBehaviour
         chController.Move(velocity*Time.deltaTime);
     }
 
-    private void Look(){
-        rotationInput.x = Input.GetAxis("Mouse X") * rotSens * Time.deltaTime;
-        rotationInput.y = Input.GetAxis("Mouse Y") * rotSens * Time.deltaTime;
-
-        cameraVerticalAngle += rotationInput.y;
-        cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -65,65);
-
-        transform.Rotate(Vector3.up * rotationInput.x);
-        mainCam.transform.localRotation = Quaternion.Euler(-cameraVerticalAngle,0,0);
-    }
-
 /*     private void Aim(){
         if(Input.GetKey(KeyCode.Mouse1)){
             aiming = true;
@@ -192,5 +188,15 @@ public class PlayerMovement : MonoBehaviour
     public void ActivateRifle(){
         anim.SetBool("Rifle",true);
         anim.SetBool("Axe",false);
+    }
+
+    public void Die(){
+        buttonRespawn.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void Respawn(){
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1;
     }
 }

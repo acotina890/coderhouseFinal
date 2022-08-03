@@ -129,7 +129,7 @@ public class ZombieMovement : MonoBehaviour
 
     private void AtPlacePlusPersecution() // sin movimiento + deteccion del jugador
     {
-        if(distancia > 10)
+        if(distancia > 30)
         {
             zAnim.SetBool("zWalk", false);
             zAnim.SetBool("zRun", false);
@@ -143,7 +143,7 @@ public class ZombieMovement : MonoBehaviour
 
     private void WithMovePlusPersecution() // movimiento automatico + deteccion del jugador
     {
-        if (distancia > 10)
+        if (distancia > 30)
         {
             AutoBehaviour();
         }
@@ -197,7 +197,7 @@ public class ZombieMovement : MonoBehaviour
 
             zAnim.SetBool("zRun", true);
 
-            transform.Translate(Vector3.forward * 2 * Time.deltaTime);
+            transform.Translate(Vector3.forward * 9 * Time.deltaTime);
         }
         else
         {
@@ -209,7 +209,7 @@ public class ZombieMovement : MonoBehaviour
         }
     }
 
-    public void FinishAnimation() // ¡¡¡NO TOCAR¡¡¡
+    public void FinishAnimation() // ï¿½ï¿½ï¿½NO TOCARï¿½ï¿½ï¿½
     {
         zAnim.SetBool("zAttack", false);
         attacking = false;
