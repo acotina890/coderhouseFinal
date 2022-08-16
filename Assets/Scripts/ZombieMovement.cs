@@ -28,7 +28,7 @@ public class ZombieMovement : MonoBehaviour
 
     public Animator zAnim; // para setear las animaciones
 
-    public float zSpeed = 0.1f; // velocidad de movimiento del zombie
+    public float zSpeed = 10; // velocidad de movimiento del zombie
 
     public float countDown = 0; // temporizador para las animaciones
     private int caseBehaviour; // para enum Comportamiento
@@ -205,7 +205,7 @@ public class ZombieMovement : MonoBehaviour
 
     private void FollowAndAttack() // deteccion del jugador
     {
-        if (distancia > 1.4)
+        if (distancia > 1.4f)
         {
             var lookPos = delJugador.transform.position - transform.position;
             lookPos.y = 0;
@@ -223,7 +223,6 @@ public class ZombieMovement : MonoBehaviour
         {
             zAnim.SetBool("zWalk", false);
             zAnim.SetBool("zRun", false);
-
             zAnim.SetBool("zAttack", true);
             attacking = true;
         }

@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject panelDie;
     public GameObject buttonRespawn;
 
-    public float damage = 0.9f;
+    public static float damage = 0.9f;
     public float maxHealth = 100;
     public Image bloodImage;
     private float a;
@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     public float x, y;
 
     void Start(){
+        damage = 0.9f;
+        panelDie.SetActive(false);
         Healed = false;
         firstHealed = false;
         a = bloodImage.color.a;
@@ -60,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(damage >= 1){
             anim.SetTrigger("Die");
+            canWalk = false;
             panelDie.SetActive(true);
         }
     }

@@ -11,7 +11,9 @@ public class Interactable : MonoBehaviour
         axe,
         doors,
         gasGallon,
-        rifle
+        rifle,
+        bomb1,
+        gasTankBomb1
     }
 
     [SerializeField] private TypeOfInteractableObject typeOfInteractableObject;
@@ -19,6 +21,7 @@ public class Interactable : MonoBehaviour
     private Inventory inventoryScript;
     public float distance;
     public int caseNumber;
+    private bool bomb1Ready;
 
 
     public static int gasGallonsCollected = 0;
@@ -26,6 +29,7 @@ public class Interactable : MonoBehaviour
 
     void Start(){
         gameObject.SetActive(true);
+        bomb1Ready = false;
         inventoryScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
@@ -42,6 +46,12 @@ public class Interactable : MonoBehaviour
         }
         else if(caseNumber == 5){
             rifle();
+        }
+        else if(caseNumber == 6){
+            bomb1();
+        }
+        else if(caseNumber == 7){
+            GasTankBomb1();
         }
     }
 
@@ -66,11 +76,18 @@ public class Interactable : MonoBehaviour
             case TypeOfInteractableObject.rifle:
                 caseNumber = 5;
                 break;
+            case TypeOfInteractableObject.bomb1:
+                caseNumber = 6;
+                break;
+            case TypeOfInteractableObject.gasTankBomb1:
+                caseNumber = 7;
+                break;
         }
     }
 
     private void MedKit(){
         if(distance <= 2.5f && Input.GetKeyDown(KeyCode.E)){
+            PlayerMovement.damage = 0;
             Destroy(gameObject, 1f);
             PlayerMovement.Healed = true;
             Player.GetComponent<PlayerMovement>().Interact();
@@ -104,6 +121,22 @@ public class Interactable : MonoBehaviour
             inventoryScript.ActivateWeapon(1);
             Player.GetComponent<PlayerMovement>().Interact();
             Player.GetComponent<PlayerMovement>().ActivateRifle();
+        }
+    }
+
+    private void bomb1(){
+        if(distance <= 2.5f && Input.GetKeyDown(KeyCode.E) && gasGallonsCollected > 9 && bomb1Ready){
+            Player.GetComponent<PlayerMovement>().Interact();
+            Debug.Log("Cuenta atrás bomba 1 iniciada");
+        }
+    }
+
+    private void GasTankBomb1(){
+        if(distance <= 2.5f && Input.GetKeyDown(KeyCode.E) && gasGallonsCollected > 9){
+            bomb1Ready = true;
+            Player.GetComponent<PlayerMovement>().Interact();
+            gasGallonsCollected = 0;
+            Debug.Log("Gasolina de la bomba 1 cargada");
         }
     }
 }
