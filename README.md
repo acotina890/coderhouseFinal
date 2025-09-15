@@ -1,10 +1,6 @@
 # The Last Mission
 En un mundo devastado por la infección, donde las líneas del frente han caído y los recursos se agotan, la Resistencia envía a su último agente a cumplir una misión suicida: destruir una base estratégica que mantiene viva la estructura del enemigo.
 
-OBJETIVO DEL PROYECTO:
-   Se trata sobre un juego en tercera persona donde el jugador tiene que activar una bomba temporizada, abandonada en el desierto, para acabar con los zombis vivientes del lugar. La bomba se encuentra contenida sobre un dispositivo que funciona a motor de gasolina, por lo que para volverlo operativo, el personaje tiene que recoger todos los bidones dispersos por el mapa, esquivando la amenaza y salir con vida.
-
-
 ## Características
 
 - Shooter en primera y tercera persona (FPS/TPS híbrido)
@@ -28,7 +24,7 @@ OBJETIVO DEL PROYECTO:
 - **Controles**: Mouse y teclado (PC)
 
 
-## 🕹️ Controles
+## Controles
 
 - `W A S D` – Movimiento
 - `Mouse Izq.` – Disparar
