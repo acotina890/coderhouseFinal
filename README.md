@@ -13,14 +13,12 @@ OBJETIVO DEL PROYECTO:
 - 3 niveles de acción intensa + jefe final
 - Planeado para PC
 
----
 
 ## Apéndice
 
 - Proyecto realizado para entrega final.
 - Indie experimental
 
----
 
 ## Tecnología utilizada
 
@@ -29,7 +27,6 @@ OBJETIVO DEL PROYECTO:
 - **Plataforma**: Windows (PC)
 - **Controles**: Mouse y teclado (PC)
 
----
 
 ## 🕹️ Controles
 
@@ -41,7 +38,6 @@ OBJETIVO DEL PROYECTO:
 - `R` – Recargar
 - `Esc` – Pausa/Menú
 
----
 
 ## Requisitos mínimos (PC)
 
@@ -51,7 +47,6 @@ OBJETIVO DEL PROYECTO:
 - GPU: Intel HD Graphics 4000 o superior
 - Almacenamiento: 25 GB
 
----
 
 ## Créditos
 
@@ -59,7 +54,6 @@ OBJETIVO DEL PROYECTO:
   - Leonardo Juventino Villaseñor
   - Agostina Yarbande
 
----
 
 ## Comandos
 Cloná el proyecto desde GitHub:
